@@ -1,0 +1,206 @@
+/* Reset básico */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  html, body {
+    height: 100%;
+    font-family: 'Inter', sans-serif;
+  }
+  
+  /* ================= Hero ================= */
+  .hero {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 2rem;
+    height: 100vh;
+    background: linear-gradient(135deg, #622799 0%, #1a133f 100%);
+    overflow: hidden;
+  }
+  
+  .hero-content {
+    max-width: 600px;
+    color: #ffffff;
+    z-index: 1;
+  }
+  
+  .hero-title {
+    font-size: 3rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+  }
+  
+  .hero-subtitle {
+    font-size: 1.25rem;
+    font-style: italic;
+    line-height: 1.4;
+    margin-bottom: 1rem;
+  }
+  
+  .hero-text {
+    font-size: 1rem;
+    line-height: 1.6;
+    margin-bottom: 2rem;
+    opacity: 0.85;
+  }
+  
+  /* ================= Botões ================= */
+  .btn {
+    display: inline-block;
+    padding: 0.75rem 2rem;
+    font-size: 1rem;
+    font-weight: 500;
+    border-radius: 8px;
+    text-decoration: none;
+    transition: background 0.3s, transform 0.2s;
+  }
+  
+  .btn--primary {
+    background: #3c3a5e;
+    color: #ffffff;
+  }
+  
+  .btn--primary:hover {
+    background: linear-gradient(135deg, #622799 0%, #3a1760 100%);
+    transform: translateY(-2px);
+  }
+  
+  /* ================= Bolhas ================= */
+  .bubble {
+    position: absolute;
+    pointer-events: none;
+    opacity: 0.8;
+  }
+  /* Mantenha aqui seus valores de top/left/right/bottom */
+  .bubble--1 { top: 5%; left: 10%; width: 120px; }
+  .bubble--2 { top: 20%; right: 25%; width: 100px; }
+  .bubble--3 { bottom: 10%; right: 15%; width: 180px; }
+  .bubble--4 { bottom: 20%; left: 20%; width: 140px; }
+  
+  /* ================= Cursor ================= */
+  .cursor {
+    position: absolute;
+    width: 200px;
+    right: 5%;
+    top: 20%;
+    pointer-events: none;
+    z-index: 0;
+  }
+  
+  /* ============== Seção de Plans ============== */
+  .plans {
+    padding: 4rem 2rem;
+    background: linear-gradient(135deg, #622799 0%, #1a133f 100%);
+  }
+  
+  .plans-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 2rem;
+    max-width: 1200px;
+    margin: auto;
+  }
+  
+  .plan-card {
+    position: relative;
+    background: rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(12px);
+    border-radius: 16px;
+    padding: 2rem;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+    color: #ffffff;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    transition: background 0.3s ease, transform 0.2s ease;
+  }
+  
+  /* Hover com gradiente */
+  .plan-card:hover {
+    background: linear-gradient(135deg, #622799 0%, #3a1760 100%);
+    transform: translateY(-5px);
+  }
+  
+  
+  .plan-title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+  }
+  
+  .plan-desc {
+    font-size: 0.95rem;
+    line-height: 1.5;
+    opacity: 0.85;
+    margin-bottom: 2rem;
+  }
+  
+  .plan-btn {
+    align-self: start;
+    padding: 0.6rem 1.6rem;
+    font-size: 0.95rem;
+    border-radius: 8px;
+    text-decoration: none;
+    background: rgba(255, 255, 255, 0.1);
+    color: #ffffff;
+    transition: background 0.3s, transform 0.2s;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  .plan-btn::after {
+    content: '➔';
+    font-size: 1rem;
+  }
+  .plan-btn:hover {
+    background: linear-gradient(135deg, #622799 0%, #3a1760 100%);
+    transform: translateY(-2px);
+  }
+  
+  /* ============== Responsividade ============== */
+  @media (max-width: 768px) {
+    .hero-title {
+      font-size: 2.25rem;
+    }
+    .hero-subtitle {
+      font-size: 1.1rem;
+    }
+    .hero-text {
+      font-size: 0.9rem;
+    }
+    .btn {
+      padding: 0.6rem 1.5rem;
+    }
+    .cursor {
+      width: 140px;
+      right: 2%;
+      top: 10%;
+    }
+    /* Bolhas: ajuste se necessário */
+    .bubble--1 { top: 5%; left: 10%; width: 120px; }
+    .bubble--2 { top: 20%; right: 25%; width: 100px; }
+    .bubble--3 { bottom: 10%; right: 15%; width: 180px; }
+    .bubble--4 { bottom: 20%; left: 20%; width: 140px; }
+  
+    .plans {
+      padding: 2rem 1rem;
+    }
+    .plan-card {
+      padding: 1.5rem;
+    }
+    .plan-title {
+      font-size: 1.3rem;
+    }
+    .plan-desc {
+      font-size: 0.9rem;
+    }
+    .plan-btn {
+      padding: 0.5rem 1.2rem;
+      font-size: 0.9rem;
+    }
+  }
+  
