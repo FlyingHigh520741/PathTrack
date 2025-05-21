@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Login - PathTrack</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    body.auth-page {
+      background: linear-gradient(135deg, #622799 0%, #1a133f 100%);
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      font-family: 'Inter', sans-serif;
+    }
+
+    .auth-container {
+      position: relative;
+      z-index: 2;
+    }
+
+    .auth-card {
+      background: rgba(255, 255, 255, 0.05);
+      backdrop-filter: blur(10px);
+      padding: 2.5rem;
+      border-radius: 16px;
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.6);
+      max-width: 400px;
+      width: 100%;
+      text-align: center;
+      color: white;
+    }
+
+    .auth-card h2 {
+      margin-bottom: 1.5rem;
+      font-size: 1.8rem;
+    }
+
+    .auth-card input {
+      width: 100%;
+      margin-bottom: 1rem;
+      padding: 0.9rem;
+      border: none;
+      border-radius: 12px;
+      background: rgba(255, 255, 255, 0.08);
+      color: white;
+      font-style: italic;
+      font-size: 1rem;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    }
+
+    .auth-card input::placeholder {
+      color: rgba(255, 255, 255, 0.6);
+    }
+
+    .auth-links {
+      margin-bottom: 1.5rem;
+    }
+
+    .auth-links a {
+      display: block;
+      color: #2bdcfb;
+      font-size: 0.9rem;
+      text-decoration: none;
+      margin-top: 0.3rem;
+    }
+
+    .auth-card button {
+      width: 100%;
+      padding: 0.8rem;
+      font-size: 1rem;
+      background: linear-gradient(90deg, #8a2be2, #4b0082);
+      border: none;
+      border-radius: 12px;
+      color: white;
+      cursor: pointer;
+      transition: transform 0.2s ease;
+    }
+
+    .auth-card button:hover {
+      transform: translateY(-2px);
+    }
+
+    .bubble, .cursor {
+      position: absolute;
+      pointer-events: none;
+      opacity: 0.8;
+      z-index: 1;
+    }
+
+    .b1 {
+      top: 5%;
+      left: 10%;
+      width: 100px;
+    }
+
+    .b2 {
+      bottom: 10%;
+      right: 10%;
+      width: 140px;
+    }
+
+    .cursor {
+      top: 15%;
+      right: 5%;
+      width: 160px;
+    }
+  </style>
+</head>
+<body class="auth-page">
+  <div class="auth-container">
+    <form class="auth-card" id="loginForm">
+      <h2>Login</h2>
+      <input type="email" name="email" placeholder="email" required />
+      <input type="password" name="senha" placeholder="senha" required minlength="6" />
+      <div class="auth-links">
+        <a href="#">esqueci minha senha</a>
+        <a href="cadastro.html">criar conta</a>
+      </div>
+      <button type="submit">Entrar</button>
+    </form>
+  </div>
+  <img src="assets/bubble1.png" class="bubble b1" />
+  <img src="assets/bubble2.png" class="bubble b2" />
+  <img src="assets/cursor.png" class="cursor" />
+
+  <script>
+    document.getElementById('loginForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      const email = document.querySelector('input[name="email"]').value;
+      const senha = document.querySelector('input[name="senha"]').value;
+
+      if (email && senha.length >= 6) {
+        alert('Logado com sucesso!');
+      } else {
+        alert('Preencha todos os campos corretamente.');
+      }
+    });
+  </script>
+</body>
+</html>
