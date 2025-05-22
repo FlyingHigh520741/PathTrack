@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Upload - PathTrack</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    body.upload-page {
+      background: linear-gradient(135deg, #622799 0%, #1a133f 100%);
+      font-family: 'Inter', sans-serif;
+      height: 100vh;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+    }
+
+    .upload-container {
+      background: rgba(255, 255, 255, 0.05);
+      backdrop-filter: blur(12px);
+      padding: 3rem;
+      border-radius: 16px;
+      text-align: center;
+      max-width: 500px;
+      width: 90%;
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.6);
+      position: relative;
+      z-index: 2;
+    }
+
+    .upload-container h2 {
+      margin-bottom: 1.5rem;
+    }
+
+    .upload-container input[type="file"] {
+      display: block;
+      margin: 1rem auto;
+      padding: 1rem;
+      background: rgba(255,255,255,0.1);
+      border-radius: 10px;
+      border: none;
+      color: white;
+      cursor: pointer;
+    }
+
+    .upload-container button {
+      padding: 0.8rem 2rem;
+      font-size: 1rem;
+      background: linear-gradient(90deg, #8a2be2, #4b0082);
+      border: none;
+      border-radius: 12px;
+      color: white;
+      cursor: pointer;
+      transition: transform 0.2s ease;
+    }
+
+    .upload-container button:hover {
+      transform: translateY(-2px);
+    }
+
+    .bubble, .cursor {
+      position: absolute;
+      pointer-events: none;
+      opacity: 0.8;
+    }
+
+    .b1 {
+      top: 10%;
+      left: 5%;
+      width: 120px;
+    }
+
+    .b2 {
+      bottom: 10%;
+      right: 5%;
+      width: 160px;
+    }
+
+    .cursor {
+      top: 20%;
+      right: 10%;
+      width: 160px;
+    }
+  </style>
+</head>
+<body class="upload-page">
+  <div class="upload-container">
+    <h2>Envio de Nota Fiscal</h2>
+    <p>Selecione o arquivo da nota fiscal para iniciar a análise:</p>
+    <input type="file" accept=".pdf,.jpg,.jpeg,.png" id="notaFile" />
+    <button onclick="simularEnvio()">Enviar</button>
+  </div>
+  <img src="assets/bubble1.png" class="bubble b1" />
+  <img src="assets/bubble2.png" class="bubble b2" />
+  <img src="assets/cursor.png" class="cursor" />
+
+  <script>
+    function simularEnvio() {
+      const fileInput = document.getElementById('notaFile');
+      if (!fileInput.files.length) {
+        alert('Por favor, selecione um arquivo.');
+        return;
+      }
+
+      alert('Arquivo enviado com sucesso! Análise em andamento...');
+      setTimeout(() => {
+        window.location.href = "analise.html";
+      }, 2000);
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Análise Gerada - PathTrack</title>
+  <link rel="stylesheet" href="style.css" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    @media print {
+      body * {
+        visibility: hidden;
+      }
+      .analise-box, .analise-box * {
+        visibility: visible;
+      }
+      .analise-box {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        background: white;
+        color: black;
+      }
+      canvas {
+        max-width: 100% !important;
+        height: auto !important;
+      }
+    }
+
+    body {
+      background: linear-gradient(135deg, #622799 0%, #1a133f 100%);
+      font-family: 'Inter', sans-serif;
+      color: white;
+      margin: 0;
+      padding: 0;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      text-align: center;
+    }
+
+    .analise-box {
+      background: rgba(255, 255, 255, 0.05);
+      backdrop-filter: blur(12px);
+      padding: 3rem;
+      border-radius: 16px;
+      max-width: 800px;
+      width: 90%;
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.6);
+    }
+
+    .analise-box h1 {
+      margin-bottom: 1rem;
+    }
+
+    .analise-box p {
+      font-size: 1rem;
+      line-height: 1.6;
+      margin-bottom: 2rem;
+    }
+
+    .analise-box ul {
+      text-align: left;
+      margin-bottom: 2rem;
+    }
+
+    .analise-box button {
+      padding: 0.8rem 2rem;
+      font-size: 1rem;
+      background: linear-gradient(90deg, #8a2be2, #4b0082);
+      border: none;
+      border-radius: 12px;
+      color: white;
+      cursor: pointer;
+      transition: transform 0.2s ease;
+      margin: 1rem 0.5rem;
+    }
+
+    .analise-box button:hover {
+      transform: translateY(-2px);
+    }
+
+    canvas {
+      margin-top: 2rem;
+      max-width: 100%;
+    }
+  </style>
+</head>
+<body>
+  <div class="analise-box">
+    <h1>Análise Concluída</h1>
+    <p>
+      O sistema processou sua nota fiscal com sucesso.<br />
+      Abaixo estão os dados simulados extraídos para visualização:
+    </p>
+    <ul>
+      <li><strong>Valor total:</strong> R$ 1.280,00</li>
+      <li><strong>Itens:</strong> 8 produtos</li>
+      <li><strong>Data:</strong> 20/05/2025</li>
+      <li><strong>Loja:</strong> Supermercado Exemplo</li>
+    </ul>
+    <canvas id="graficoProdutos" height="200"></canvas>
+    <button onclick="window.location.href='upload.html'">Enviar outra nota</button>
+    <button onclick="window.print()">Download PDF</button>
+  </div>
+
+  <script>
+    const ctx = document.getElementById('graficoProdutos').getContext('2d');
+    new Chart(ctx, {
+      type: 'bar',
+      data: {
+        labels: ['Arroz', 'Feijão', 'Macarrão', 'Açúcar', 'Café'],
+        datasets: [{
+          label: 'Quantidade por item',
+          data: [2, 1, 2, 1, 2],
+          backgroundColor: '#8a2be2'
+        }]
+      },
+      options: {
+        plugins: {
+          legend: {
+            labels: { color: 'white' }
+          }
+        },
+        scales: {
+          x: {
+            ticks: { color: 'white' }
+          },
+          y: {
+            ticks: { color: 'white' }
+          }
+        }
+      }
+    });
+  </script>
+</body>
+</html>

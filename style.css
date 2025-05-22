@@ -304,3 +304,22 @@
     box-shadow: 0 12px 32px rgba(0, 0, 0, 0.6);
   }
   
+  .login-button-fixed {
+    position: fixed;
+    top: 1rem;
+    right: 1rem;
+    z-index: 9999;
+    background: transparent;
+    border: 1px solid #fff;
+    color: #fff;
+    padding: 0.6rem 1.2rem;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 0.9rem;
+    transition: background 0.3s;
+  }
+  .login-button-fixed:hover {
+    background: rgba(255, 255, 255, 0.1);
+  }
+  
