@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Histórico - PathTrack</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    body {
+      background: linear-gradient(135deg, #622799 0%, #1a133f 100%);
+      font-family: 'Inter', sans-serif;
+      color: white;
+      margin: 0;
+      padding: 2rem 1rem;
+      min-height: 100vh;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 2rem;
+      font-size: 2.5rem;
+    }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 1.5rem;
+      margin-bottom: 3rem;
+    }
+
+    .stat-card {
+      background: rgba(255, 255, 255, 0.05);
+      backdrop-filter: blur(12px);
+      padding: 2rem;
+      border-radius: 16px;
+      text-align: center;
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
+      border: 2px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .stat-card .icon {
+      font-size: 3rem;
+      margin-bottom: 1rem;
+    }
+
+    .stat-card .value {
+      font-size: 2rem;
+      font-weight: bold;
+      margin-bottom: 0.5rem;
+    }
+    
+    /* Cores específicas para cada card */
+    .stat-blue .icon,
+    .stat-blue .value {
+      color: #2bdcfb;
+    }
+    
+    .stat-green .icon,
+    .stat-green .value {
+      color: #51cf66;
+    }
+    
+    .stat-purple .icon,
+    .stat-purple .value {
+      color: #8a2be2;
+    }
+    
+    .stat-orange .icon,
+    .stat-orange .value {
+      color: #ff9f43;
+    }
+
+    .stat-card .label {
+      font-size: 1rem;
+      opacity: 0.8;
+    }
+
+    .charts-section {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+      gap: 2rem;
+      margin-bottom: 3rem;
+    }
+
+    .chart-card {
+      background: rgba(255, 255, 255, 0.05);
+      backdrop-filter: blur(12px);
+      padding: 2rem;
+      border-radius: 16px;
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
+    }
+
+    .chart-card h2 {
+      margin-top: 0;
+      margin-bottom: 1.5rem;
+      font-size: 1.5rem;
+    }
+
+    .chart-container {
+      position: relative;
+      height: 300px;
+    }
+
+    .notas-list {
+      background: rgba(255, 255, 255, 0.05);
+      backdrop-filter: blur(12px);
+      padding: 2rem;
+      border-radius: 16px;
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
+    }
+
+    .notas-list h2 {
+      margin-top: 0;
+      margin-bottom: 1.5rem;
+    }
+
+    .nota-item {
+      background: rgba(255, 255, 255, 0.05);
+      padding: 1.5rem;
+      border-radius: 12px;
+      margin-bottom: 1rem;
+      border-left: 4px solid #8a2be2;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .nota-item:hover {
+      background: rgba(255, 255, 255, 0.1);
+      transform: translateX(5px);
+    }
+
+    .nota-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 0.5rem;
+    }
+
+    .nota-loja {
+      font-size: 1.2rem;
+      font-weight: bold;
+      color: #2bdcfb;
+    }
+
+    .nota-valor {
+      font-size: 1.3rem;
+      font-weight: bold;
+      color: #51cf66;
+    }
+
+    .nota-details {
+      display: flex;
+      gap: 2rem;
+      font-size: 0.9rem;
+      opacity: 0.8;
+    }
+
+    .btn-container {
+      text-align: center;
+      margin-top: 2rem;
+    }
+
+    .btn {
+      padding: 0.8rem 2rem;
+      font-size: 1rem;
+      background: linear-gradient(90deg, #8a2be2, #4b0082);
+      border: none;
+      border-radius: 12px;
+      color: white;
+      cursor: pointer;
+      transition: transform 0.2s ease;
+      margin: 0.5rem;
+      text-decoration: none;
+      display: inline-block;
+    }
+
+    .btn:hover {
+      transform: translateY(-2px);
+    }
+
+    .empty-state {
+      text-align: center;
+      padding: 4rem 2rem;
+      opacity: 0.7;
+    }
+
+    .empty-state .icon {
+      font-size: 5rem;
+      margin-bottom: 1rem;
+    }
+
+    @media (max-width: 768px) {
+      .charts-section {
+        grid-template-columns: 1fr;
+      }
+      
+      h1 {
+        font-size: 2rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <a href="index.html" class="inicio-btn"><i class="fas fa-home"></i> Início</a>
+
+  <div class="container">
+    <h1><i class="fas fa-history"></i> Histórico de Notas Fiscais</h1>
+
+    <!-- Estatísticas Gerais -->
+    <div class="stats-grid" id="statsGrid"></div>
+
+    <!-- Gráficos -->
+    <div class="charts-section">
+      <div class="chart-card">
+        <h2><i class="fas fa-chart-bar"></i> Gastos por Loja</h2>
+        <div class="chart-container">
+          <canvas id="chartLojas"></canvas>
+        </div>
+      </div>
+
+      <div class="chart-card">
+        <h2><i class="fas fa-chart-line"></i> Gastos ao Longo do Tempo</h2>
+        <div class="chart-container">
+          <canvas id="chartTempo"></canvas>
+        </div>
+      </div>
+    </div>
+
+    <div class="charts-section">
+      <div class="chart-card">
+        <h2><i class="fas fa-shopping-cart"></i> Produtos Mais Comprados</h2>
+        <div class="chart-container">
+          <canvas id="chartProdutos"></canvas>
+        </div>
+      </div>
+
+      <div class="chart-card">
+        <h2><i class="fas fa-wallet"></i> Distribuição de Valores</h2>
+        <div class="chart-container">
+          <canvas id="chartDistribuicao"></canvas>
+        </div>
+      </div>
+    </div>
+    
+    <div class="charts-section">
+      <div class="chart-card">
+        <h2><i class="fas fa-tags"></i> Gastos por Categoria</h2>
+        <div class="chart-container">
+          <canvas id="chartCategorias"></canvas>
+        </div>
+      </div>
+    </div>
+
+    <!-- Lista de Notas -->
+    <div class="notas-list">
+      <h2><i class="fas fa-file-alt"></i> Todas as Notas</h2>
+      <div id="notasList"></div>
+    </div>
+
+    <div class="btn-container">
+      <a href="upload.html" class="btn"><i class="fas fa-plus-circle"></i> Adicionar Nova Nota</a>
+      <button onclick="exportarHTML()" class="btn" style="background: linear-gradient(90deg, #ff9f43, #f76707);"><i class="fas fa-file-code"></i> Exportar HTML</button>
+      <button onclick="exportarCSV()" class="btn" style="background: linear-gradient(90deg, #51cf66, #37b24d);"><i class="fas fa-file-csv"></i> Exportar CSV</button>
+      <button class="btn" onclick="limparHistorico()" style="background: linear-gradient(90deg, #ff6b6b, #c92a2a);"><i class="fas fa-trash-alt"></i> Limpar Histórico</button>
+    </div>
+  </div>
+
+  <script src="historico.js"></script>
+</body>
+</html>

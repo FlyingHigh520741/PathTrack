@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Upload - PathTrack</title>
   <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
   <style>
     body.upload-page {
       background: linear-gradient(135deg, #622799 0%, #1a133f 100%);
@@ -84,33 +85,286 @@
       right: 10%;
       width: 160px;
     }
+    
+    .api-config {
+      background: rgba(255,200,0,0.1);
+      border: 2px solid #ffc800;
+      padding: 1rem;
+      border-radius: 8px;
+      margin-bottom: 1rem;
+      font-size: 0.9rem;
+    }
+    
+    .api-config input {
+      width: 100%;
+      padding: 0.5rem;
+      margin-top: 0.5rem;
+      border-radius: 6px;
+      border: none;
+      background: rgba(255,255,255,0.9);
+      color: #333;
+      font-family: monospace;
+    }
   </style>
 </head>
 <body class="upload-page">
-    <a href="index.html" class="inicio-btn">🏠 Início</a>
+    <a href="index.html" class="inicio-btn"><i class="fas fa-home"></i> Início</a>
 
   <div class="upload-container">
-    <h2>Envio de Nota Fiscal</h2>
-    <p>Selecione o arquivo da nota fiscal para iniciar a análise:</p>
-    <input type="file" accept=".pdf,.jpg,.jpeg,.png" id="notaFile" />
-    <button onclick="simularEnvio()">Enviar</button>
+    <h2><i class="fas fa-upload"></i> Upload de Nota Fiscal</h2>
+    
+    <div class="api-config">
+      <strong><i class="fas fa-key"></i> Configuração de API:</strong>
+      <input type="password" id="apiKey" placeholder="Insira sua API Key aqui" />
+      <p style="font-size: 0.8rem; margin-top: 0.5rem; opacity: 0.8;">
+        Sua chave é salva localmente. <a href="https://aistudio.google.com/app/apikey" target="_blank" style="color: #ffc800;">Obter chave gratuita</a>
+      </p>
+    </div>
+    
+    <p>Selecione a nota fiscal (JPG/PNG):</p>
+    <input type="file" accept=".jpg,.jpeg,.png" id="notaFile" />
+    <button onclick="processarNota()"><i class="fas fa-cog fa-spin"></i> Processar Nota</button>
   </div>
+  
   <img src="assets/bubble1.png" class="bubble b1" />
   <img src="assets/bubble2.png" class="bubble b2" />
   <img src="assets/cursor.png" class="cursor" />
 
   <script>
-    function simularEnvio() {
+    // Carregar API key salva (se houver)
+    const savedKey = localStorage.getItem('apiKey');
+    if (savedKey) {
+      document.getElementById('apiKey').value = savedKey;
+    }
+
+    async function processarNota() {
+      const apiKey = document.getElementById('apiKey').value.trim();
       const fileInput = document.getElementById('notaFile');
-      if (!fileInput.files.length) {
-        alert('Por favor, selecione um arquivo.');
+      const file = fileInput.files[0];
+      
+      // Validações
+      if (!apiKey) {
+        alert('❌ Por favor, configure sua API Key primeiro!');
         return;
       }
+      
+      if (!file) {
+        alert('❌ Por favor, selecione uma imagem da nota fiscal.');
+        return;
+      }
+      
+      if (file.size > 10 * 1024 * 1024) {
+        alert('❌ Arquivo muito grande (máx 10MB)');
+        return;
+      }
+      
+      const validTypes = ['image/jpeg', 'image/png', 'image/jpg'];
+      if (!validTypes.includes(file.type)) {
+        alert('❌ Use JPG ou PNG.');
+        return;
+      }
+      
+      // Salvar API key
+      localStorage.setItem('apiKey', apiKey);
+      
+      // Mostrar loading
+      const button = document.querySelector('button');
+      const originalHTML = button.innerHTML;
+      button.disabled = true;
+      button.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Processando...';
+      button.style.background = '#666';
+      
+      try {
+        // Converter imagem para base64
+        const base64 = await fileToBase64(file);
+        
+        // Processar com IA
+        const dadosExtraidos = await extrairDados(apiKey, base64);
+        
+        console.log('=== DADOS EXTRAÍDOS ===');
+        console.log(dadosExtraidos);
+        console.log('======================');
+        
+        // Salvar no LocalStorage
+        salvarNota(dadosExtraidos, file.name);
+        
+        // Sucesso! Mostrar resumo
+        button.innerHTML = '<i class="fas fa-check-circle"></i> Processado! Ver Resultado';
+        button.style.background = '#51cf66';
+        button.disabled = false;
+        button.onclick = () => {
+          window.location.href = 'analise.html';
+        };
+        
+        // Mostrar resumo na tela
+        mostrarResumo(dadosExtraidos);
+        
+      } catch (error) {
+        console.error('Erro ao processar:', error);
+        alert('Erro: ' + error.message);
+        button.disabled = false;
+        button.innerHTML = originalHTML;
+        button.style.background = '';
+        button.onclick = processarNota;
+      }
+    }
 
-      alert('Arquivo enviado com sucesso! Análise em andamento...');
-      setTimeout(() => {
-        window.location.href = "analise.html";
-      }, 2000);
+    async function fileToBase64(file) {
+      return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = () => {
+          const base64 = reader.result.split(',')[1];
+          resolve(base64);
+        };
+        reader.onerror = reject;
+        reader.readAsDataURL(file);
+      });
+    }
+
+    async function extrairDados(apiKey, base64Image) {
+      const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-exp:generateContent?key=${apiKey}`;
+      
+      const prompt = `Você é um especialista em extrair dados de notas fiscais brasileiras.
+
+Analise esta imagem de nota fiscal e extraia as seguintes informações em formato JSON:
+
+{
+  "nomeLoja": "Nome da loja/estabelecimento",
+  "cnpj": "CNPJ formatado (XX.XXX.XXX/XXXX-XX)",
+  "data": "Data no formato YYYY-MM-DD",
+  "valorTotal": 123.45,
+  "itens": [
+    {
+      "nome": "Nome do produto",
+      "categoria": "Categoria genérica do produto",
+      "quantidade": 1,
+      "valorUnitario": 10.00,
+      "valorTotal": 10.00
+    }
+  ]
+}
+
+REGRAS IMPORTANTES:
+1. Retorne APENAS o JSON, sem texto adicional
+2. Se não encontrar um campo LITERAL (nomeLoja, CNPJ, data), use "Não identificado" para strings ou 0 para números
+3. Valores devem ser números (float), não strings
+4. Data deve estar no formato YYYY-MM-DD
+5. Ignore linhas de pagamento (dinheiro, cartão, troco)
+6. Extraia todos os produtos/itens da nota
+7. CNPJ deve ter pontos, barras e hífen formatados
+8. IMPORTANTE - Campo "categoria": NUNCA use "Não identificado"! SEMPRE deduza e classifique cada produto em UMA categoria GENÉRICA baseada no NOME do produto. PREFIRA usar estas categorias (mas pode criar outras se necessário):
+   - "Alimentação" (qualquer comida, bebida, ingredientes, snacks, etc.)
+   - "Higiene Pessoal" (sabonete, shampoo, pasta de dente, desodorante, perfume, etc.)
+   - "Limpeza" (produtos de limpeza doméstica, detergente, sabão, desinfetante, etc.)
+   - "Saúde" (remédios, vitaminas, suplementos, primeiros socorros, etc.)
+   - "Vestuário" (roupas, calçados, acessórios, etc.)
+   - "Eletrônicos" (celulares, computadores, cabos, acessórios, etc.)
+   - "Casa e Decoração" (móveis, utensílios, decoração, etc.)
+   - "Automotivo" (peças, acessórios, combustível, manutenção de veículos, etc.)
+   - "Educação" (livros, material escolar, cursos, etc.)
+   - "Lazer" (jogos, brinquedos, entretenimento, etc.)
+   - "Petshop" (produtos para animais de estimação, ração, etc.)
+   - "Outros" (se não se encaixar em nenhuma das acima)
+9. Use sempre a MESMA grafia para categorias similares (ex: sempre "Alimentação", nunca "Alimentos" ou "Comida")
+10. Em caso de dúvida entre categorias, escolha a mais ampla (ex: pão = Alimentação)
+
+Analise a imagem e retorne o JSON:`;
+
+      const requestBody = {
+        contents: [{
+          parts: [
+            {
+              inlineData: {
+                mimeType: "image/jpeg",
+                data: base64Image
+              }
+            },
+            { text: prompt }
+          ]
+        }],
+        generationConfig: {
+          temperature: 0.1,
+          maxOutputTokens: 2000
+        }
+      };
+
+      const response = await fetch(url, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(requestBody)
+      });
+
+      if (!response.ok) {
+        const error = await response.json();
+        throw new Error(error.error?.message || 'Erro ao processar');
+      }
+
+      const result = await response.json();
+      const textoResposta = result.candidates[0].content.parts[0].text;
+      
+      console.log('=== RESPOSTA DA API ===');
+      console.log(textoResposta);
+      console.log('=====================');
+      
+      // Extrair JSON da resposta (pode vir com markdown)
+      let jsonText = textoResposta.trim();
+      jsonText = jsonText.replace(/```json\n?/g, '').replace(/```\n?/g, '');
+      
+      const dados = JSON.parse(jsonText);
+      
+      // Adicionar metadados
+      dados.id = Date.now();
+      dados.processadoEm = new Date().toISOString();
+      
+      // Ajustar estrutura dos itens se necessário
+      if (dados.itens && dados.itens.length > 0) {
+        dados.itens = dados.itens.map(item => ({
+          nome: item.nome,
+          categoria: item.categoria || 'Outros',
+          quantidade: parseFloat(item.quantidade) || 1,
+          valor: parseFloat(item.valorUnitario || item.valor || 0),
+          valorTotal: parseFloat(item.valorTotal || 0)
+        }));
+      }
+      
+      return dados;
+    }
+
+    function salvarNota(dados, nomeArquivo) {
+      let notas = JSON.parse(localStorage.getItem('notas') || '[]');
+      dados.nomeArquivo = nomeArquivo;
+      notas.push(dados);
+      localStorage.setItem('notas', JSON.stringify(notas));
+      localStorage.setItem('ultimaNota', JSON.stringify(dados));
+      console.log('Nota salva:', dados);
+    }
+
+    function mostrarResumo(dados) {
+      const container = document.querySelector('.upload-container');
+      const resumo = document.createElement('div');
+      resumo.style.cssText = 'background: rgba(255,255,255,0.1); padding: 1.5rem; border-radius: 12px; margin-top: 2rem; text-align: left; max-height: 400px; overflow-y: auto;';
+      resumo.innerHTML = `
+        <h3 style="margin-bottom: 1rem; color: #2bdcfb;"><i class="fas fa-chart-bar"></i> Dados Extraídos:</h3>
+        <p><strong><i class="fas fa-dollar-sign"></i> Valor Total:</strong> R$ ${dados.valorTotal.toFixed(2)}</p>
+        <p><strong><i class="fas fa-calendar-alt"></i> Data:</strong> ${new Date(dados.data).toLocaleDateString('pt-BR')}</p>
+        <p><strong><i class="fas fa-store"></i> Loja:</strong> ${dados.nomeLoja}</p>
+        <p><strong><i class="fas fa-file-invoice"></i> CNPJ:</strong> ${dados.cnpj}</p>
+        <p><strong><i class="fas fa-box"></i> Itens Encontrados:</strong> ${dados.itens.length}</p>
+        <div style="margin-top: 1rem;">
+          <strong>Produtos:</strong>
+          <ul style="margin-top: 0.5rem; padding-left: 1.5rem;">
+            ${dados.itens.map(item => `
+              <li>${item.nome} - ${item.quantidade}x R$ ${item.valor.toFixed(2)} = R$ ${item.valorTotal.toFixed(2)}</li>
+            `).join('')}
+          </ul>
+        </div>
+        <p style="margin-top: 1rem; font-size: 0.9rem; opacity: 0.8;">
+          <i class="fas fa-chart-line"></i> Clique no botão verde para ver a análise completa
+        </p>
+      `;
+      container.appendChild(resumo);
     }
   </script>
 </body>

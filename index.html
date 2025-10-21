@@ -4,13 +4,15 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>PathTrack</title>
+    <title>PathTrack - Transforme Notas em Inteligência de Vendas</title>
     <link rel="stylesheet" href="style.css" />
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
 </head>
 
 <body id="home">
     <a href="login.html" class="login-button-fixed">Login</a>
-    <a href="#home" class="inicio-btn">🏠 Início</a>
+    <a href="#home" class="inicio-btn"><i class="fas fa-home"></i> Início</a>
 
     <div class="hero">
         <!-- Bolhas de fundo -->
@@ -23,158 +25,276 @@
         <div class="hero-content">
             <h1 class="hero-title">PathTrack</h1>
             <p class="hero-subtitle">
-                Rastreie, analise e converta — sua venda<br />
-                começa com o primeiro clique.
+                Transforme notas fiscais em inteligência<br />
+                de vendas com um clique
             </p>
             <p class="hero-text">
-                Otimize suas vendas com inteligência real!
+                <i class="fas fa-camera"></i> Tire uma foto → <i class="fas fa-robot"></i> IA extrai dados → <i class="fas fa-chart-line"></i> Receba insights acionáveis
             </p>
-            <!-- Link alterado para rolar até #plans -->
-            <a href="#plans" class="btn btn--primary">Começar análise</a>
+            <div class="hero-cta">
+                <a href="login.html" class="btn btn--primary">Começar grátis</a>
+                <a href="#como-funciona" class="btn btn--secondary">Como funciona</a>
+            </div>
         </div>
 
         <!-- Cursor decorativo -->
         <img src="assets/cursor.png" alt="" class="cursor" />
     </div>
 
-    <!-- === Seção de Plans / Features (com id para âncora) === -->
+    <!-- === Seção: Como Funciona === -->
+    <section id="como-funciona" class="como-funciona">
+        <h2 class="section-title">Como funciona?</h2>
+        <p class="section-subtitle">Simples, rápido e sem complicação</p>
+        
+        <div class="steps-grid">
+            <div class="step-card">
+                <div class="step-icon">📸</div>
+                <h3>1. Envie a Nota</h3>
+                <p>Tire uma foto da nota fiscal ou faça upload de imagem/PDF</p>
+            </div>
+            <div class="step-card">
+                <div class="step-icon">🤖</div>
+                <h3>2. IA Processa</h3>
+                <p>Nossa inteligência artificial extrai todos os dados automaticamente</p>
+            </div>
+            <div class="step-card">
+                <div class="step-icon">📊</div>
+                <h3>3. Receba Insights</h3>
+                <p>Veja análises, gráficos e recomendações para otimizar suas vendas</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- === Seção de Benefícios === -->
+    <section class="beneficios">
+        <h2 class="section-title">Por que escolher o PathTrack?</h2>
+        
+        <div class="beneficios-grid">
+            <div class="beneficio-card">
+                <div class="beneficio-icon">🚀</div>
+                <h3>Sem integração complexa</h3>
+                <p>Não precisa de ERP ou sistema de PDV. Basta uma foto!</p>
+            </div>
+            <div class="beneficio-card">
+                <div class="beneficio-icon">💰</div>
+                <h3>Economize tempo</h3>
+                <p>Reduz horas de trabalho manual em minutos de análise automática</p>
+            </div>
+            <div class="beneficio-card">
+                <div class="beneficio-icon">📈</div>
+                <h3>Dados em tempo real</h3>
+                <p>Insights atualizados para tomar decisões mais inteligentes</p>
+            </div>
+            <div class="beneficio-card">
+                <div class="beneficio-icon">🎯</div>
+                <h3>Para todos os tamanhos</h3>
+                <p>Desde pequenos comércios até grandes indústrias</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- === Seção de Planos === -->
     <section id="plans" class="plans">
+        <h2 class="section-title">Escolha seu plano</h2>
+        <p class="section-subtitle">Soluções para cada etapa do seu negócio</p>
+        
         <div class="plans-grid">
-            <div class="plan-card">
+            <div class="plan-card" data-plan="free">
+                <div class="plan-badge">Grátis</div>
                 <h3 class="plan-title">Free</h3>
-                <p class="plan-desc">
-                    Para Pequenos Negócios<br />
-                    Ideal para comércios de bairro, lojas locais, padarias, pet shops
-                </p>
-                <a href="#free" class="plan-btn">Ver mais</a>
+                <div class="plan-price">
+                    <span class="price-value">R$ 0</span>
+                    <span class="price-period">/mês</span>
+                </div>
+                <p class="plan-desc">Para pequenos comércios testarem a plataforma</p>
+                <ul class="plan-features">
+                    <li>✅ Envio de notas ilimitado</li>
+                    <li>✅ Relatórios mensais</li>
+                    <li>✅ Suporte via e-mail</li>
+                </ul>
+                <a href="login.html" class="plan-btn">Começar grátis</a>
             </div>
-            <div class="plan-card">
+
+            <div class="plan-card plan-card--featured" data-plan="pro">
+                <div class="plan-badge plan-badge--featured">Mais Popular</div>
                 <h3 class="plan-title">Professional</h3>
-                <p class="plan-desc">
-                    Para Lojas Online em Crescimento<br />
-                    Ideal para quem quer entender melhor sua audiência e vender mais
-                </p>
-                <a href="#pro" class="plan-btn">Ver mais</a>
+                <div class="plan-price">
+                    <span class="price-value">R$ 19,90</span>
+                    <span class="price-period">/mês</span>
+                </div>
+                <p class="plan-desc">Para lojas que querem crescer com dados</p>
+                <ul class="plan-features">
+                    <li>✅ Tudo do Free +</li>
+                    <li>✅ Relatórios semanais</li>
+                    <li>✅ Gráficos avançados</li>
+                    <li>✅ Suporte prioritário</li>
+                </ul>
+                <a href="login.html" class="plan-btn">Experimentar Pro</a>
             </div>
-            <div class="plan-card">
+
+            <div class="plan-card" data-plan="business">
+                <div class="plan-badge">Negócios</div>
                 <h3 class="plan-title">Business</h3>
-                <p class="plan-desc">
-                    Para pequenas e médias indústrias<br />
-                    Ideal para indústrias que querem acessar dados organizados por SKU, região e canal.
-                </p>
-                <a href="#business" class="plan-btn">Ver mais</a>
+                <div class="plan-price">
+                    <span class="price-value">R$ 297</span>
+                    <span class="price-period">/mês</span>
+                </div>
+                <p class="plan-desc">Para indústrias com múltiplos pontos de venda</p>
+                <ul class="plan-features">
+                    <li>✅ Tudo do Pro +</li>
+                    <li>✅ Dashboard completo</li>
+                    <li>✅ Análise por região</li>
+                    <li>✅ Export CSV/PDF</li>
+                </ul>
+                <a href="login.html" class="plan-btn">Falar com vendas</a>
             </div>
-            <div class="plan-card">
+
+            <div class="plan-card" data-plan="enterprise">
+                <div class="plan-badge">Empresarial</div>
                 <h3 class="plan-title">Enterprise</h3>
-                <p class="plan-desc">
-                    Para grandes indústrias<br />
-                    Ideal para indústrias que querem dados em tempo real e alta personalização.
-                </p>
-                <a href="#enterprise" class="plan-btn">Ver mais</a>
+                <div class="plan-price">
+                    <span class="price-value">R$ 897</span>
+                    <span class="price-period">/mês</span>
+                </div>
+                <p class="plan-desc">Para grandes empresas com demandas customizadas</p>
+                <ul class="plan-features">
+                    <li>✅ Tudo do Business +</li>
+                    <li>✅ Alertas inteligentes</li>
+                    <li>✅ Integração API</li>
+                    <li>✅ Analista dedicado</li>
+                </ul>
+                <a href="login.html" class="plan-btn">Falar com especialista</a>
+            </div>
+        </div>
+
+        <div class="plans-compare">
+            <a href="#comparacao" class="btn-compare">Ver comparação completa dos planos</a>
+        </div>
+    </section>
+
+    <!-- === Modal/Seção de Comparação (Oculta por padrão) === -->
+    <section id="comparacao" class="comparacao-section" style="display: none;">
+        <div class="comparacao-container">
+            <div class="comparacao-header">
+                <h2>Comparação Detalhada de Planos</h2>
+                <button class="close-btn" onclick="document.getElementById('comparacao').style.display='none'">✕</button>
+            </div>
+            
+            <div class="comparacao-table">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Funcionalidade</th>
+                            <th>Free</th>
+                            <th>Professional</th>
+                            <th>Business</th>
+                            <th>Enterprise</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Upload de notas</strong></td>
+                            <td>Ilimitado</td>
+                            <td>Ilimitado</td>
+                            <td>Ilimitado</td>
+                            <td>Ilimitado</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Relatórios</strong></td>
+                            <td>Mensais</td>
+                            <td>Semanais</td>
+                            <td>Diários</td>
+                            <td>Tempo real</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Gráficos e análises</strong></td>
+                            <td>Básicos</td>
+                            <td>Avançados</td>
+                            <td>Completos</td>
+                            <td>Personalizados</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Análise regional</strong></td>
+                            <td>❌</td>
+                            <td>❌</td>
+                            <td>✅</td>
+                            <td>✅ Detalhada</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Exportação</strong></td>
+                            <td>PDF básico</td>
+                            <td>PDF + CSV</td>
+                            <td>PDF + CSV + Excel</td>
+                            <td>Todos + API</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Alertas inteligentes</strong></td>
+                            <td>❌</td>
+                            <td>❌</td>
+                            <td>❌</td>
+                            <td>✅</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Suporte</strong></td>
+                            <td>E-mail</td>
+                            <td>WhatsApp</td>
+                            <td>Chat + Call</td>
+                            <td>Analista dedicado</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Integração API</strong></td>
+                            <td>❌</td>
+                            <td>❌</td>
+                            <td>❌</td>
+                            <td>✅</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            
+            <div class="comparacao-footer">
+                <a href="login.html" class="btn btn--primary">Começar agora</a>
             </div>
         </div>
     </section>
-    <section class="plan-section" id="free">
-        <div class="plan-content">
-            <h2>Free</h2>
-            <p class="subtitle">Ideal para pequenos comércios que querem começar a transformar suas vendas em
-                recompensas.</p>
-            <p><strong>Inclui:</strong></p>
-            <ul>
-                <li>Envio de notas ilimitado</li>
-                <li>Relatórios mensais, com visão geral das vendas</li>
-                <li>Cupons básicos e brindes digitais como recompensas</li>
-                <li>Acúmulo padrão de pontos</li>
-                <li>Suporte via FAQ e e-mail</li>
-                <li>Acesso às campanhas abertas</li>
-            </ul>
-            <p class="price">💰 Por: R$ 0,00</p>
-            <a href="login.html" class="btn-plan">Começar →</a>
+    <!-- === CTA Final === -->
+    <section class="cta-final">
+        <div class="cta-content">
+            <h2>Pronto para transformar seus dados em resultados?</h2>
+            <p>Comece gratuitamente e veja como o PathTrack pode revolucionar sua análise de vendas</p>
+            <div class="cta-buttons">
+                <a href="login.html" class="btn btn--primary btn--large">Começar grátis agora</a>
+                <a href="#plans" class="btn btn--secondary btn--large">Ver planos</a>
+            </div>
+            <p class="cta-note">✨ Sem cartão de crédito • ⚡ Configuração em 2 minutos • 🔒 Dados seguros</p>
         </div>
-        <img src="assets/bubble1.png" class="bubble b1" />
-        <img src="assets/bubble2.png" class="bubble b2" />
-        <img src="assets/cursor.png" class="cursor" />
-    </section>
-
-    <section class="plan-section" id="pro">
-        <div class="plan-content">
-            <h2>Professional</h2>
-            <p class="subtitle">Ideal para pequenos comércios que querem começar a transformar suas vendas em
-                recompensas.</p>
-            <p><strong>Inclui:</strong></p>
-            <ul>
-                <li>Envio de notas ilimitado</li>
-                <li>Relatórios semanais, com gráficos e feedback personalizado</li>
-                <li>Cashback, descontos exclusivos e brindes físicos como recompensas</li>
-                <li>Acúmulo de pontos com bônus de +10% ou pontos dobrados</li>
-                <li>Suporte via WhatsApp e atendimento prioritário</li>
-                <li>Participação em campanhas exclusivas patrocinadas</li>
-            </ul>
-            <p class="price">💰 Por: R$ 19,90/mês ou R$ 179/ano</p>
-            <a href="login.html" class="btn-plan">Começar →</a>
-        </div>
-        <img src="assets/bubble1.png" class="bubble b1" />
-        <img src="assets/bubble2.png" class="bubble b2" />
-        <img src="assets/cursor.png" class="cursor" />
-    </section>
-
-    <section class="plan-section" id="business">
-        <div class="plan-content">
-            <h2>Business</h2>
-            <p class="subtitle">Para indústrias que precisam ter uma visão clara e estratégica do mercado, com dados
-                reais de vendas.</p>
-            <p><strong>Inclui:</strong></p>
-            <ul>
-                <li>Dashboard com:</li>
-                <ul>
-                    <li>Volume de vendas por produto, região e canal</li>
-                    <li>Ticket médio por loja</li>
-                    <li>Sazonalidade e frequência de compra</li>
-                </ul>
-                <li>Filtros por período e cidade</li>
-                <li>Exportação de dados em CSV</li>
-                <li>Relatórios: 1 relatório mensal em PDF com resumo executivo</li>
-                <li>✅ Análise regional geral: vendas por estados e principais cidades</li>
-            </ul>
-            <p class="price">💰 Por: R$ 297/mês</p>
-            <a href="login.html" class="btn-plan">Começar →</a>
-        </div>
-        <img src="assets/bubble1.png" class="bubble b1" />
-        <img src="assets/bubble2.png" class="bubble b2" />
-        <img src="assets/cursor.png" class="cursor" />
-    </section>
-
-    <section class="plan-section" id="enterprise">
-        <div class="plan-content">
-            <h2>Enterprise</h2>
-            <p class="subtitle">Para grandes marcas que precisam de dados detalhados, personalizados e prontos para a
-                ação.</p>
-            <p><strong>Inclui:</strong></p>
-            <ul>
-                <li>Tudo do plano Business +</li>
-                <li>Dashboards personalizados por segmento ou campanha</li>
-                <li>Alertas inteligentes: rupturas, queda de venda, oportunidades</li>
-                <li>Exportação ilimitada</li>
-                <li>Integração via API com CRM e ERP</li>
-                <li>Relatórios personalizados e periódicos</li>
-                <li>Suporte dedicado com analista exclusivo</li>
-                <li>Criação de campanhas gamificadas patrocinadas no app</li>
-                <li>✅ Análises regionais detalhadas:</li>
-                <ul>
-                    <li>Comparativos entre regiões</li>
-                    <li>Ranking de produtos por cidade ou estado</li>
-                    <li>Identificação de oportunidades regionais</li>
-                </ul>
-            </ul>
-            <p class="price">💰 Por: R$ 897/mês</p>
-            <a href="login.html" class="btn-plan">Começar →</a>
-        </div>
-        <img src="assets/bubble1.png" class="bubble b1" />
-        <img src="assets/bubble2.png" class="bubble b2" />
-        <img src="assets/cursor.png" class="cursor" />
     </section>
 
     <script src="script.js"></script>
+    <script>
+        // Toggle comparação de planos
+        document.querySelector('.btn-compare')?.addEventListener('click', function(e) {
+            e.preventDefault();
+            const section = document.getElementById('comparacao');
+            section.style.display = section.style.display === 'none' ? 'block' : 'none';
+            if (section.style.display === 'block') {
+                section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+        });
+
+        // Smooth scroll para âncoras
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                const href = this.getAttribute('href');
+                if (href === '#comparacao') return; // Handled separately
+                e.preventDefault();
+                const target = document.querySelector(href);
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth' });
+                }
+            });
+        });
+    </script>
 </body>
 
 </html>

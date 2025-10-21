@@ -68,6 +68,31 @@
     background: linear-gradient(135deg, #622799 0%, #3a1760 100%);
     transform: translateY(-2px);
   }
+
+  .btn--secondary {
+    background: transparent;
+    color: #ffffff;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+  }
+  
+  .btn--secondary:hover {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: rgba(255, 255, 255, 0.5);
+    transform: translateY(-2px);
+  }
+
+  .btn--large {
+    padding: 1rem 2.5rem;
+    font-size: 1.1rem;
+  }
+
+  .hero-cta {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-top: 2rem;
+  }
   
   /* ================= Bolhas ================= */
   .bubble {
@@ -96,6 +121,22 @@
     padding: 4rem 2rem;
     background: linear-gradient(135deg, #622799 0%, #1a133f 100%);
   }
+
+  .section-title {
+    text-align: center;
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+    color: #ffffff;
+  }
+
+  .section-subtitle {
+    text-align: center;
+    font-size: 1.2rem;
+    margin-bottom: 3rem;
+    opacity: 0.8;
+    color: #ffffff;
+  }
   
   .plans-grid {
     display: grid;
@@ -117,47 +158,129 @@
     flex-direction: column;
     justify-content: space-between;
     transition: background 0.3s ease, transform 0.2s ease;
+    border: 2px solid rgba(255, 255, 255, 0.1);
   }
   
   /* Hover com gradiente */
   .plan-card:hover {
-    background: linear-gradient(135deg, #622799 0%, #3a1760 100%);
+    background: linear-gradient(135deg, rgba(98, 39, 153, 0.3) 0%, rgba(58, 23, 96, 0.3) 100%);
     transform: translateY(-5px);
+    border-color: rgba(255, 255, 255, 0.2);
   }
-  
+
+  .plan-card--featured {
+    border: 2px solid #2bdcfb;
+    background: rgba(43, 220, 251, 0.05);
+  }
+
+  .plan-card--featured:hover {
+    background: linear-gradient(135deg, rgba(43, 220, 251, 0.15) 0%, rgba(98, 39, 153, 0.3) 100%);
+  }
+
+  .plan-badge {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    background: rgba(255, 255, 255, 0.15);
+    padding: 0.3rem 0.8rem;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+  }
+
+  .plan-badge--featured {
+    background: linear-gradient(90deg, #2bdcfb, #1baccc);
+    color: #1a133f;
+  }
+
+  .plan-price {
+    margin: 1.5rem 0;
+    text-align: center;
+  }
+
+  .price-value {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: #2bdcfb;
+  }
+
+  .price-period {
+    font-size: 1rem;
+    opacity: 0.7;
+  }
   
   .plan-title {
     font-size: 1.5rem;
     font-weight: 700;
     margin-bottom: 1rem;
+    margin-top: 0.5rem;
   }
   
   .plan-desc {
     font-size: 0.95rem;
     line-height: 1.5;
     opacity: 0.85;
-    margin-bottom: 2rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .plan-features {
+    list-style: none;
+    padding: 0;
+    margin: 1.5rem 0;
+    flex-grow: 1;
+  }
+
+  .plan-features li {
+    padding: 0.5rem 0;
+    font-size: 0.9rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  .plan-features li:last-child {
+    border-bottom: none;
   }
   
   .plan-btn {
-    align-self: start;
-    padding: 0.6rem 1.6rem;
+    align-self: center;
+    width: 100%;
+    padding: 0.8rem 1.6rem;
     font-size: 0.95rem;
     border-radius: 8px;
     text-decoration: none;
     background: rgba(255, 255, 255, 0.1);
     color: #ffffff;
     transition: background 0.3s, transform 0.2s;
-    display: inline-flex;
-    align-items: center;
-    gap: 0.5rem;
+    display: block;
+    text-align: center;
+    font-weight: 500;
+    margin-top: 1rem;
   }
-  .plan-btn::after {
-    content: '➔';
-    font-size: 1rem;
-  }
+
   .plan-btn:hover {
     background: linear-gradient(135deg, #622799 0%, #3a1760 100%);
+    transform: translateY(-2px);
+  }
+
+  .plans-compare {
+    text-align: center;
+    margin-top: 3rem;
+  }
+
+  .btn-compare {
+    color: #2bdcfb;
+    text-decoration: none;
+    font-weight: 500;
+    padding: 0.8rem 2rem;
+    border: 2px solid rgba(43, 220, 251, 0.3);
+    border-radius: 8px;
+    display: inline-block;
+    transition: all 0.3s;
+  }
+
+  .btn-compare:hover {
+    background: rgba(43, 220, 251, 0.1);
+    border-color: #2bdcfb;
     transform: translateY(-2px);
   }
   
@@ -174,6 +297,13 @@
     }
     .btn {
       padding: 0.6rem 1.5rem;
+    }
+    .hero-cta {
+      flex-direction: column;
+      align-items: stretch;
+    }
+    .hero-cta .btn {
+      width: 100%;
     }
     .cursor {
       width: 140px;
@@ -202,108 +332,50 @@
       padding: 0.5rem 1.2rem;
       font-size: 0.9rem;
     }
+
+    .section-title {
+      font-size: 1.8rem;
+    }
+
+    .section-subtitle {
+      font-size: 1rem;
+    }
+
+    .steps-grid,
+    .beneficios-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .cta-content h2 {
+      font-size: 1.8rem;
+    }
+
+    .cta-content > p {
+      font-size: 1rem;
+    }
+
+    .cta-buttons {
+      flex-direction: column;
+    }
+
+    .comparacao-container {
+      padding: 1.5rem;
+      margin: 1rem;
+    }
+
+    .comparacao-header h2 {
+      font-size: 1.4rem;
+    }
+
+    .comparacao-table {
+      font-size: 0.85rem;
+    }
+
+    .comparacao-table th,
+    .comparacao-table td {
+      padding: 0.6rem 0.4rem;
+    }
   }
-  .plan-section {
-    position: relative;
-    background: linear-gradient(135deg, #622799 0%, #1a133f 100%);
-    color: white;
-    padding: 6rem 2rem;
-    min-height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    overflow: hidden;
-    text-align: left;
-  }
-  
-  .plan-content {
-    max-width: 680px;
-    background: rgba(255, 255, 255, 0.05);
-    padding: 3rem;
-    border-radius: 24px;
-    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.5);
-    z-index: 1;
-  }
-  
-  .plan-content h2 {
-    font-size: 2.8rem;
-    font-weight: 700;
-    margin-bottom: 1rem;
-  }
-  
-  .subtitle {
-    font-style: italic;
-    font-size: 1.1rem;
-    margin-bottom: 1.5rem;
-    line-height: 1.6;
-    opacity: 0.9;
-  }
-  
-  .plan-content ul {
-    margin-bottom: 2rem;
-    padding-left: 1.2rem;
-  }
-  
-  .plan-content ul li {
-    margin-bottom: 0.5rem;
-    font-size: 1rem;
-  }
-  
-  .price {
-    font-size: 1.1rem;
-    font-weight: bold;
-    margin-bottom: 1.5rem;
-  }
-  
-  .btn-plan {
-    background: #3c3a5e;
-    color: white;
-    padding: 0.8rem 2rem;
-    border-radius: 12px;
-    text-decoration: none;
-    font-weight: 500;
-    font-size: 1rem;
-    transition: 0.3s ease;
-  }
-  
-  .btn-plan:hover {
-    background: linear-gradient(135deg, #622799 0%, #3a1760 100%);
-    transform: translateY(-3px);
-  }
-  
-  /* Bolhas e cursor */
-  .plan-section .bubble {
-    position: absolute;
-    pointer-events: none;
-    opacity: 0.8;
-  }
-  .plan-section .b1 {
-    top: 5%;
-    left: 10%;
-    width: 100px;
-  }
-  .plan-section .b2 {
-    bottom: 10%;
-    right: 10%;
-    width: 140px;
-  }
-  .plan-section .cursor {
-    position: absolute;
-    width: 160px;
-    top: 10%;
-    right: 5%;
-    pointer-events: none;
-  }
-  .plan-section .plan-content {
-    transition: all 0.3s ease;
-  }
-  
-  .plan-section:hover .plan-content {
-    background: rgba(255, 255, 255, 0.08);
-    transform: translateY(-8px);
-    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.6);
-  }
-  
   .login-button-fixed {
     position: fixed;
     top: 1rem;
@@ -339,5 +411,233 @@
   
   .inicio-btn:hover {
     background: rgba(255, 255, 255, 0.1);
+  }
+
+  /* ============== Como Funciona ============== */
+  .como-funciona {
+    padding: 5rem 2rem;
+    background: linear-gradient(180deg, #1a133f 0%, #2d1b5e 100%);
+    color: white;
+  }
+
+  .steps-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 2rem;
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+
+  .step-card {
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(12px);
+    padding: 2.5rem 2rem;
+    border-radius: 16px;
+    text-align: center;
+    transition: all 0.3s;
+    border: 2px solid rgba(255, 255, 255, 0.1);
+  }
+
+  .step-card:hover {
+    background: rgba(255, 255, 255, 0.08);
+    transform: translateY(-5px);
+    border-color: rgba(43, 220, 251, 0.3);
+  }
+
+  .step-icon {
+    font-size: 4rem;
+    margin-bottom: 1rem;
+  }
+
+  .step-card h3 {
+    font-size: 1.4rem;
+    margin-bottom: 1rem;
+    color: #2bdcfb;
+  }
+
+  .step-card p {
+    font-size: 1rem;
+    line-height: 1.6;
+    opacity: 0.85;
+  }
+
+  /* ============== Benefícios ============== */
+  .beneficios {
+    padding: 5rem 2rem;
+    background: linear-gradient(180deg, #2d1b5e 0%, #622799 100%);
+    color: white;
+  }
+
+  .beneficios-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .beneficio-card {
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(12px);
+    padding: 2rem;
+    border-radius: 16px;
+    text-align: center;
+    transition: all 0.3s;
+    border: 2px solid rgba(255, 255, 255, 0.1);
+  }
+
+  .beneficio-card:hover {
+    background: rgba(255, 255, 255, 0.08);
+    transform: translateY(-5px);
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.4);
+  }
+
+  .beneficio-icon {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+  }
+
+  .beneficio-card h3 {
+    font-size: 1.3rem;
+    margin-bottom: 0.8rem;
+    color: #ffffff;
+  }
+
+  .beneficio-card p {
+    font-size: 0.95rem;
+    line-height: 1.5;
+    opacity: 0.85;
+  }
+
+  /* ============== Comparação de Planos ============== */
+  .comparacao-section {
+    padding: 4rem 2rem;
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(20px);
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 10000;
+    overflow-y: auto;
+  }
+
+  .comparacao-container {
+    background: linear-gradient(135deg, #622799 0%, #1a133f 100%);
+    max-width: 1200px;
+    margin: 2rem auto;
+    padding: 3rem;
+    border-radius: 16px;
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.6);
+    position: relative;
+  }
+
+  .comparacao-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+    border-bottom: 2px solid rgba(255, 255, 255, 0.1);
+    padding-bottom: 1rem;
+  }
+
+  .comparacao-header h2 {
+    color: white;
+    font-size: 2rem;
+    margin: 0;
+  }
+
+  .close-btn {
+    background: rgba(255, 255, 255, 0.1);
+    border: none;
+    color: white;
+    font-size: 1.5rem;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: all 0.3s;
+  }
+
+  .close-btn:hover {
+    background: rgba(255, 107, 107, 0.3);
+    transform: rotate(90deg);
+  }
+
+  .comparacao-table {
+    overflow-x: auto;
+    margin-bottom: 2rem;
+  }
+
+  .comparacao-table table {
+    width: 100%;
+    border-collapse: collapse;
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: 12px;
+    overflow: hidden;
+  }
+
+  .comparacao-table th,
+  .comparacao-table td {
+    padding: 1rem;
+    text-align: center;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    color: white;
+  }
+
+  .comparacao-table th {
+    background: rgba(98, 39, 153, 0.3);
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 0.85rem;
+  }
+
+  .comparacao-table td:first-child {
+    text-align: left;
+    font-weight: 500;
+  }
+
+  .comparacao-table tbody tr:hover {
+    background: rgba(255, 255, 255, 0.05);
+  }
+
+  .comparacao-footer {
+    text-align: center;
+    padding-top: 2rem;
+  }
+
+  /* ============== CTA Final ============== */
+  .cta-final {
+    padding: 6rem 2rem;
+    background: linear-gradient(135deg, #1a133f 0%, #622799 100%);
+    text-align: center;
+    color: white;
+  }
+
+  .cta-content h2 {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+  }
+
+  .cta-content > p {
+    font-size: 1.2rem;
+    margin-bottom: 2rem;
+    opacity: 0.9;
+  }
+
+  .cta-buttons {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-bottom: 2rem;
+  }
+
+  .cta-note {
+    font-size: 0.9rem;
+    opacity: 0.7;
+    margin-top: 1.5rem;
   }
   

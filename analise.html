@@ -5,26 +5,63 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Análise Gerada - PathTrack</title>
   <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <style>
     @media print {
+      body {
+        background: white !important;
+        padding: 0 !important;
+        margin: 0 !important;
+      }
+      
       body * {
         visibility: hidden;
       }
+      
       .analise-box, .analise-box * {
         visibility: visible;
       }
+      
       .analise-box {
         position: absolute;
         top: 0;
         left: 0;
-        width: 100%;
-        background: white;
-        color: black;
+        width: 100% !important;
+        max-width: 100% !important;
+        margin: 0 !important;
+        padding: 2rem !important;
+        background: white !important;
+        color: black !important;
+        box-shadow: none !important;
+        border-radius: 0 !important;
+        backdrop-filter: none !important;
       }
+      
+      .analise-box h1,
+      .analise-box h2,
+      .analise-box p,
+      .analise-box li {
+        color: black !important;
+        text-align: left !important;
+      }
+      
+      .analise-box ul {
+        text-align: left !important;
+        padding-left: 2rem !important;
+      }
+      
+      .analise-box button {
+        display: none !important;
+      }
+      
       canvas {
         max-width: 100% !important;
         height: auto !important;
+      }
+      
+      .inicio-btn {
+        display: none !important;
       }
     }
 
@@ -33,12 +70,8 @@
       font-family: 'Inter', sans-serif;
       color: white;
       margin: 0;
-      padding: 0;
+      padding: 2rem 1rem;
       min-height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-direction: column;
       text-align: center;
     }
 
@@ -49,6 +82,7 @@
       border-radius: 16px;
       max-width: 800px;
       width: 90%;
+      margin: 0 auto;
       box-shadow: 0 8px 30px rgba(0, 0, 0, 0.6);
     }
 
@@ -86,56 +120,275 @@
     canvas {
       margin-top: 2rem;
       max-width: 100%;
+      max-height: 400px !important;
+    }
+    
+    #graficoContainer {
+      position: relative;
+      height: 400px;
+      width: 100%;
+      margin: 2rem 0;
     }
   </style>
 </head>
 <body>
-    <a href="index.html" class="inicio-btn">🏠 Início</a>
+    <a href="index.html" class="inicio-btn"><i class="fas fa-home"></i> Início</a>
   <div class="analise-box">
-    <h1>Análise Concluída</h1>
-    <p>
+    <h1><i class="fas fa-check-circle"></i> Análise Concluída</h1>
+    <p id="descricao">
       O sistema processou sua nota fiscal com sucesso.<br />
-      Abaixo estão os dados simulados extraídos para visualização:
+      Abaixo estão os dados extraídos automaticamente:
     </p>
-    <ul>
-      <li><strong>Valor total:</strong> R$ 1.280,00</li>
-      <li><strong>Itens:</strong> 8 produtos</li>
-      <li><strong>Data:</strong> 20/05/2025</li>
-      <li><strong>Loja:</strong> Supermercado Exemplo</li>
+    <ul id="dadosNota">
+      <!-- Dados serão inseridos aqui pelo JavaScript -->
     </ul>
-    <canvas id="graficoProdutos" height="200"></canvas>
-    <button onclick="window.location.href='upload.html'">Enviar outra nota</button>
-    <button onclick="window.print()">Download PDF</button>
+    
+    <div id="insights" style="margin: 2rem 0;">
+      <!-- Insights serão inseridos aqui -->
+    </div>
+    
+    <div id="graficoContainer">
+      <canvas id="graficoProdutos"></canvas>
+    </div>
+    
+    <div style="margin-top: 2rem;">
+      <button onclick="window.location.href='upload.html'"><i class="fas fa-upload"></i> Enviar outra nota</button>
+      <button onclick="window.location.href='historico.html'"><i class="fas fa-history"></i> Ver Histórico</button>
+      <button onclick="window.print()"><i class="fas fa-file-pdf"></i> Download PDF</button>
+    </div>
   </div>
 
   <script>
-    const ctx = document.getElementById('graficoProdutos').getContext('2d');
-    new Chart(ctx, {
-      type: 'bar',
-      data: {
-        labels: ['Arroz', 'Feijão', 'Macarrão', 'Açúcar', 'Café'],
-        datasets: [{
-          label: 'Quantidade por item',
-          data: [2, 1, 2, 1, 2],
-          backgroundColor: '#8a2be2'
-        }]
-      },
-      options: {
-        plugins: {
-          legend: {
-            labels: { color: 'white' }
-          }
+    // Carregar última nota do LocalStorage
+    const nota = JSON.parse(localStorage.getItem('ultimaNota'));
+
+    if (!nota) {
+      document.querySelector('.analise-box').innerHTML = `
+        <h1><i class="fas fa-exclamation-triangle"></i> Nenhuma nota encontrada</h1>
+        <p>Por favor, envie uma nota fiscal primeiro.</p>
+        <button onclick="window.location.href='upload.html'"><i class="fas fa-upload"></i> Enviar Nota</button>
+      `;
+    } else {
+      // Atualizar informações da nota
+      document.getElementById('dadosNota').innerHTML = `
+        <li><strong><i class="fas fa-dollar-sign"></i> Valor total:</strong> R$ ${(nota.valorTotal || 0).toFixed(2)}</li>
+        <li><strong><i class="fas fa-box"></i> Itens:</strong> ${nota.itens.length} produto(s)</li>
+        <li><strong><i class="fas fa-calendar-alt"></i> Data:</strong> ${new Date(nota.data).toLocaleDateString('pt-BR')}</li>
+        <li><strong><i class="fas fa-store"></i> Loja:</strong> ${nota.nomeLoja}</li>
+        <li><strong><i class="fas fa-file-invoice"></i> CNPJ:</strong> ${nota.cnpj}</li>
+        <li><strong><i class="fas fa-clock"></i> Processado em:</strong> ${new Date(nota.processadoEm).toLocaleString('pt-BR')}</li>
+        <li><strong><i class="fas fa-paperclip"></i> Arquivo:</strong> ${nota.nomeArquivo || 'nota-fiscal.jpg'}</li>
+      `;
+
+      // Gerar insights automáticos
+      const insights = gerarInsights(nota);
+      document.getElementById('insights').innerHTML = `
+        <h2 style="margin-bottom: 1rem; color: #2bdcfb;"><i class="fas fa-lightbulb"></i> Insights</h2>
+        <div style="display: grid; gap: 1rem;">
+          ${insights.map(insight => `
+            <div style="background: rgba(255,255,255,0.08); padding: 1rem; border-radius: 8px; border-left: 4px solid ${insight.cor}; text-align: left;">
+              <strong style="color: ${insight.cor};"><i class="${insight.icone}"></i> ${insight.titulo}:</strong> ${insight.descricao}
+            </div>
+          `).join('')}
+        </div>
+      `;
+
+      // Preparar dados do gráfico
+      const labels = nota.itens.map(item => {
+        const nome = item.nome.length > 20 ? item.nome.substring(0, 20) + '...' : item.nome;
+        return nome;
+      });
+      const valores = nota.itens.map(item => item.valorTotal || item.valor);
+      const quantidades = nota.itens.map(item => item.quantidade || 1);
+
+      // Criar gráfico
+      const ctx = document.getElementById('graficoProdutos').getContext('2d');
+      new Chart(ctx, {
+        type: 'bar',
+        data: {
+          labels: labels,
+          datasets: [
+            {
+              label: 'Valor (R$)',
+              data: valores,
+              backgroundColor: '#8a2be2',
+              borderColor: '#6a1bb2',
+              borderWidth: 1,
+              yAxisID: 'y',
+              order: 2
+            },
+            {
+              label: 'Quantidade',
+              data: quantidades,
+              backgroundColor: '#2bdcfb',
+              borderColor: '#1baccc',
+              borderWidth: 2,
+              type: 'line',
+              yAxisID: 'y1',
+              order: 1,
+            }
+          ]
         },
-        scales: {
-          x: {
-            ticks: { color: 'white' }
+        options: {
+          responsive: true,
+          maintainAspectRatio: true,
+          interaction: {
+            mode: 'index',
+            intersect: false
           },
-          y: {
-            ticks: { color: 'white' }
+          plugins: {
+            legend: {
+              labels: { color: 'white', font: { size: 14 } }
+            },
+            tooltip: {
+              callbacks: {
+                label: function(context) {
+                  let label = context.dataset.label || '';
+                  if (label) label += ': ';
+                  if (context.dataset.yAxisID === 'y1') {
+                    label += context.parsed.y + ' un';
+                  } else {
+                    label += 'R$ ' + context.parsed.y.toFixed(2);
+                  }
+                  return label;
+                }
+              }
+            }
+          },
+          scales: {
+            y: {
+              type: 'linear',
+              display: true,
+              position: 'left',
+              ticks: { 
+                color: 'white',
+                callback: function(value) {
+                  return 'R$ ' + value.toFixed(0);
+                }
+              },
+              title: { 
+                display: true, 
+                text: 'Valor (R$)', 
+                color: 'white',
+                font: { size: 12 }
+              }
+            },
+            y1: {
+              type: 'linear',
+              display: true,
+              position: 'right',
+              ticks: { 
+                color: 'white',
+                stepSize: 1
+              },
+              title: { 
+                display: true, 
+                text: 'Quantidade', 
+                color: 'white',
+                font: { size: 12 }
+              },
+              grid: { drawOnChartArea: false }
+            },
+            x: {
+              ticks: { 
+                color: 'white',
+                maxRotation: 45,
+                minRotation: 45
+              }
+            }
           }
         }
+      });
+    }
+
+    function gerarInsights(nota) {
+      const insights = [];
+      
+      // 1. Ticket médio
+      if (nota.itens.length > 0) {
+        const ticketMedio = nota.valorTotal / nota.itens.length;
+        insights.push({
+          titulo: 'Ticket Médio por Produto',
+          descricao: `R$ ${ticketMedio.toFixed(2)} - ${ticketMedio > 20 ? 'Acima da média' : 'Dentro da média'}`,
+          cor: ticketMedio > 20 ? '#2bdcfb' : '#ffaa00',
+          icone: 'fas fa-bullseye'
+        });
       }
-    });
+      
+      // 2. Produto mais caro
+      if (nota.itens.length > 0) {
+        const maisCaro = nota.itens.reduce((max, item) => 
+          (item.valorTotal || item.valor) > (max.valorTotal || max.valor) ? item : max
+        );
+        insights.push({
+          titulo: 'Produto de Maior Valor',
+          descricao: `${maisCaro.nome} - R$ ${(maisCaro.valorTotal || maisCaro.valor).toFixed(2)}`,
+          cor: '#8a2be2',
+          icone: 'fas fa-crown'
+        });
+      }
+      
+      // 3. Quantidade total
+      const qtdTotal = nota.itens.reduce((sum, item) => sum + (item.quantidade || 1), 0);
+      insights.push({
+        titulo: 'Total de Unidades',
+        descricao: `${qtdTotal} unidade(s) comprada(s) nesta nota`,
+        cor: '#2bdcfb',
+        icone: 'fas fa-cubes'
+      });
+      
+      // 4. Categorias de produtos
+      if (nota.itens.length > 0 && nota.itens.some(item => item.categoria)) {
+        const categorias = {};
+        let categoriaMaisGasta = null;
+        let maiorValor = 0;
+        
+        nota.itens.forEach(item => {
+          const cat = item.categoria || 'Outros';
+          if (!categorias[cat]) {
+            categorias[cat] = 0;
+          }
+          categorias[cat] += item.valorTotal || item.valor || 0;
+          
+          if (categorias[cat] > maiorValor) {
+            maiorValor = categorias[cat];
+            categoriaMaisGasta = cat;
+          }
+        });
+        
+        const numCategorias = Object.keys(categorias).length;
+        insights.push({
+          titulo: 'Categoria Principal',
+          descricao: `${categoriaMaisGasta} (R$ ${maiorValor.toFixed(2)}) - ${numCategorias} categoria(s) no total`,
+          cor: '#ff9f43',
+          icone: 'fas fa-tags'
+        });
+      }
+      
+      // 5. Comparação com histórico
+      const todasNotas = JSON.parse(localStorage.getItem('notas') || '[]');
+      if (todasNotas.length > 1) {
+        const mediaHistorica = todasNotas.reduce((sum, n) => sum + (n.valorTotal || 0), 0) / todasNotas.length;
+        const diferenca = ((nota.valorTotal - mediaHistorica) / mediaHistorica * 100).toFixed(1);
+        insights.push({
+          titulo: 'Comparação com Histórico',
+          descricao: `${diferenca > 0 ? '+' : ''}${diferenca}% em relação à média de R$ ${mediaHistorica.toFixed(2)}`,
+          cor: diferenca > 0 ? '#ff6b6b' : '#51cf66',
+          icone: diferenca > 0 ? 'fas fa-arrow-up' : 'fas fa-arrow-down'
+        });
+      }
+      
+      // 5. Data da compra
+      const diasAtras = Math.floor((new Date() - new Date(nota.data)) / (1000 * 60 * 60 * 24));
+      insights.push({
+        titulo: 'Quando foi',
+        descricao: diasAtras === 0 ? 'Hoje' : diasAtras === 1 ? 'Ontem' : `Há ${diasAtras} dia(s)`,
+        cor: '#ffffff',
+        icone: 'fas fa-calendar-check'
+      });
+      
+      return insights;
+    }
   </script>
 </body>
 </html>

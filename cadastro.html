@@ -1,10 +1,11 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Cadastro - PathTrack</title>
-  <link rel="stylesheet" href="style.css" />
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Cadastro - PathTrack</title>
+    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
   <style>
     body.auth-page {
       background: linear-gradient(135deg, #622799 0%, #1a133f 100%);
@@ -110,7 +111,7 @@
   </style>
 </head>
 <body class="auth-page">
-    <a href="index.html" class="inicio-btn">🏠 Início</a>
+    <a href="index.html" class="inicio-btn"><i class="fas fa-home"></i> Início</a>
   <div class="auth-container">
     <form class="auth-card" id="registerForm">
       <h2>Criar conta</h2>
@@ -142,6 +143,7 @@
       }
 
       alert('Cadastrado com sucesso!');
+      window.location.href = 'historico.html';
     });
   </script>
 </body>
